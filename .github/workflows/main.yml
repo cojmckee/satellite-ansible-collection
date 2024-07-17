@@ -90,7 +90,7 @@ jobs:
         run: make dist-test
       - name: Run sanity tests
         run: make SANITY_OPTS="--docker" sanity
-        if: matrix.ansible != 'v2.9.17' && matrix.ansible != 'stable-2.10' && matrix.ansible != 'stable-2.11' && matrix.ansible != 'stable-2.12' && matrix.ansible != 'stable-2.13'
+        if: matrix.ansible != 'v2.9.17' && matrix.ansible != 'stable-2.10' && matrix.ansible != 'stable-2.11' && matrix.ansible != 'stable-2.12' && matrix.ansible != 'stable-2.13' && matrix.ansible != 'stable-2.14'
 
   checkmode:
     runs-on: ubuntu-latest
