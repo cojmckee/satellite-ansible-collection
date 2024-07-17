@@ -102,7 +102,7 @@ EXAMPLES = '''
     password: "changeme"
     server_url: "https://satellite.example.com"
     organization: "Default Organization"
-- name: "List incremental exports of a specific content view version marked for a specific destination server"
+- name: "List incremental exports of a specific content view marked for a specific destination server"
   redhat.satellite.content_export_info:
     content_view: RHEL8
     destination_server: "airgapped.example.com"
@@ -119,7 +119,6 @@ EXAMPLES = '''
     password: "changeme"
     server_url: "https://satellite.example.com"
     organization: "Default Organization"
-
 '''
 
 from ansible_collections.redhat.satellite.plugins.module_utils.foreman_helper import KatelloInfoAnsibleModule

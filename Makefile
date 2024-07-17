@@ -8,7 +8,7 @@ ROLES := $(wildcard roles/*)
 PLUGIN_TYPES := $(filter-out __%,$(notdir $(wildcard plugins/*)))
 RUNTIME_YML := meta/runtime.yml
 METADATA := galaxy.yml LICENSE README.md $(RUNTIME_YML) requirements.txt changelogs/changelog.yaml CHANGELOG.rst bindep.txt PSF-license.txt meta/execution-environment.yml
-TESTDATA := Makefile pytest.ini $(shell find tests/ ! -type d ! -path '*/__pycache__/*' ! -path '*/test_playbooks/fixtures/*' ! -path '*/fixtures/apidoc/*')
+TESTDATA := .ansible-lint Makefile pytest.ini $(shell find tests/ ! -type d ! -path '*/__pycache__/*' ! -path '*/test_playbooks/fixtures/*' ! -path '*/fixtures/apidoc/*')
 $(foreach PLUGIN_TYPE,$(PLUGIN_TYPES),$(eval _$(PLUGIN_TYPE) := $(filter-out %__init__.py,$(wildcard plugins/$(PLUGIN_TYPE)/*.py)) $(wildcard plugins/$(PLUGIN_TYPE)/*.yml)))
 DEPENDENCIES := $(METADATA) $(foreach PLUGIN_TYPE,$(PLUGIN_TYPES),$(_$(PLUGIN_TYPE))) $(foreach ROLE,$(ROLES),$(wildcard $(ROLE)/*/*)) $(foreach ROLE,$(ROLES),$(ROLE)/README.md) $(TESTDATA)
 
@@ -46,7 +46,7 @@ info:
 
 lint: $(MANIFEST) $(RUNTIME_YML) | tests/test_playbooks/vars/server.yml
 	yamllint -f parsable tests/test_playbooks roles
-	ansible-lint -v --offline roles/*
+	ansible-lint -v --offline
 	ansible-playbook --syntax-check tests/test_playbooks/*.yml | grep -v '^$$'
 	flake8 --ignore=E402,W503 --max-line-length=160 plugins/ tests/
 	@echo "Check that there are no changes to $(RUNTIME_YML)"

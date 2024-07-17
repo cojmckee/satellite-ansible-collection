@@ -17,4 +17,4 @@
     satellite_cv_name: "{{ satellite_cv.name }}"
     satellite_cv_versions: "{{ (__satellite_versions.resources | rejectattr('environments') | rejectattr('composite_content_view_ids') |
       rejectattr('published_in_composite_content_view_ids') | map(attribute='version') | map('float') | sort |
-      map('string') | reverse | list)[satellite_content_view_version_cleanup_keep:] }}"
+      map('string') | reverse | list)[(satellite_content_view_version_cleanup_keep | int):] }}"

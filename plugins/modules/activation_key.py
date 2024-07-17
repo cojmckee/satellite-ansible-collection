@@ -49,6 +49,7 @@ options:
     description:
       - List of subscriptions that include either Name, Pool ID, or Upstream Pool ID.
       - Pool IDs are preferred since Names and Upstream Pool IDs are not guaranteed to be unique. The module will fail if it finds more than one match.
+      - This parameter is not supported in SCA mode.
     type: list
     elements: dict
     suboptions:
@@ -170,15 +171,11 @@ EXAMPLES = '''
     lifecycle_environment: "Library"
     content_view: 'client content view'
     host_collections:
-        - rhel7-servers
-        - rhel7-production
-    subscriptions:
-      - pool_id: "8a88e9826db22df5016dd018abdd029b"
-      - pool_id: "8a88e9826db22df5016dd01a23270344"
-      - name: "Red Hat Enterprise Linux"
+      - rhel7-servers
+      - rhel7-production
     content_overrides:
-        - label: rhel-7-server-optional-rpms
-          override: enabled
+      - label: rhel-7-server-optional-rpms
+        override: enabled
     auto_attach: false
     release_version: 7Server
     service_level: Standard

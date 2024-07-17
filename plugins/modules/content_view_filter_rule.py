@@ -118,6 +118,8 @@ extends_documentation_fragment:
 '''
 
 EXAMPLES = '''
+# the examples assume that the content view filters have been already created
+# e.g. by the redhat.satellite.content_view_filter module
 
 - name: "Include errata by date"
   redhat.satellite.content_view_filter_rule:
@@ -128,7 +130,6 @@ EXAMPLES = '''
     content_view: "Standard Operating Environment"
     content_view_filter: "errata_by_date"
     state: present
-    inclusion: true
     date_type: updated
     types:
       - bugfix
@@ -137,7 +138,7 @@ EXAMPLES = '''
     end_date: "2022-05-25"
 
 - name: "Exclude csh versions 6.20 and older"
-  redhat.satellite.content_view_filter:
+  redhat.satellite.content_view_filter_rule:
     username: "admin"
     password: "changeme"
     server_url: "https://satellite.example.com"
@@ -148,7 +149,7 @@ EXAMPLES = '''
     max_version: "6.20.00"
 
 - name: "Exclude csh version 6.23 due to example policy"
-  redhat.satellite.content_view_filter:
+  redhat.satellite.content_view_filter_rule:
     username: "admin"
     password: "changeme"
     server_url: "https://satellite.example.com"
@@ -159,7 +160,7 @@ EXAMPLES = '''
     version: "6.23.00"
 
 - name: "Content View Filter Rule for 389"
-  content_view_filter_rule:
+  redhat.satellite.content_view_filter_rule:
     username: "admin"
     password: "changeme"
     server_url: "https://satellite.example.com"
