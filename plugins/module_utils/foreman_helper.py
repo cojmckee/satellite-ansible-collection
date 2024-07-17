@@ -1316,8 +1316,8 @@ class ForemanStatelessEntityAnsibleModule(ForemanAnsibleModule):
         ))[0])
 
         if 'parent' in self.foreman_spec and self.foreman_spec['parent'].get('type') == 'entity':
-            if 'resouce_type' not in self.foreman_spec['parent']:
-                self.foreman_spec['parent']['resource_type'] = self.foreman_spec['entity']['resource_type']
+            # ensure parent and entity are the same type
+            self.foreman_spec['parent']['resource_type'] = self.foreman_spec['entity']['resource_type']
             if 'failsafe' not in self.foreman_spec['parent']:
                 self.foreman_spec['parent']['failsafe'] = True
             current, parent = split_fqn(self.foreman_params[self.entity_key])
@@ -1593,6 +1593,41 @@ class KatelloContentExportBaseModule(KatelloAnsibleModule):
         self.exit_json(task=task)
 
 
+class KatelloContentImportBaseModule(KatelloAnsibleModule):
+
+    def __init__(self, **kwargs):
+        foreman_spec = dict(
+            path=dict(required=True, type='str'),
+            metadata_file=dict(required=False, type='str'),
+            metadata=dict(required=False, type='dict')
+        )
+        argument_spec = {}
+        foreman_spec.update(kwargs.pop('foreman_spec', {}))
+        argument_spec.update(kwargs.pop('argument_spec', {}))
+
+        self.import_action = kwargs.pop('import_action')
+
+        super(KatelloContentImportBaseModule, self).__init__(foreman_spec=foreman_spec,
+                                                             required_one_of=[['metadata', 'metadata_file']],
+                                                             argument_spec=argument_spec, **kwargs)
+
+        # needs to happen after super().__init__()
+        self.task_timeout = 12 * 60 * 60
+
+    def run(self, **kwargs):
+        metadata_file = self.params.get('metadata_file')
+        self.auto_lookup_entities()
+        payload = _flatten_entity(self.foreman_params, self.foreman_spec)
+
+        if payload.get("metadata") is None and metadata_file:
+            payload["metadata"] = json.load(open(metadata_file))
+            payload.pop("metadata_file")
+
+        endpoint = 'content_imports'
+        task = self.resource_action(endpoint, self.import_action, payload)
+        self.exit_json(task=task)
+
+
 def _foreman_spec_helper(spec):
     """Extend an entity spec by adding entries for all flat_names.
     Extract Ansible compatible argument_spec on the way.
@@ -1769,7 +1804,7 @@ def parameters_list_to_str_list(parameters):
     filtered_params = []
     for param in parameters:
         new_param = {k: v for (k, v) in param.items() if k in parameter_ansible_spec.keys()}
-        new_param['value'] = parameter_value_to_str(new_param['value'], new_param['parameter_type'])
+        new_param['value'] = parameter_value_to_str(new_param['value'], new_param.get('parameter_type', 'string'))
         filtered_params.append(new_param)
     return filtered_params
 

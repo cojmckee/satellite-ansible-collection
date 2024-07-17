@@ -92,29 +92,39 @@ extends_documentation_fragment:
 '''
 
 EXAMPLES = '''
-- name: Exclude csh
-  redhat.satellite.content_view_filter:
-    username: "admin"
-    password: "changeme"
-    server_url: "https://satellite.example.com"
-    name: "package filter 1"
-    organization: "Default Organization"
-    content_view: Web Servers
-    filter_type: "rpm"
-    package_name: tcsh
+# as of v4.0.0 you can no longer manage rules from this module, content_view_filter_rule should be used for that
+# you still need to ensure the filter itself exists before adding rules to said filter
 
-- name: Include newer csh versions
+- name: Ensure the filter for errata inclusion by date exists
   redhat.satellite.content_view_filter:
     username: "admin"
     password: "changeme"
     server_url: "https://satellite.example.com"
-    name: "package filter 1"
     organization: "Default Organization"
-    content_view: Web Servers
-    filter_type: "rpm"
-    package_name: tcsh
-    min_version: 6.20.00
+    name: "errata_by_date"
+    content_view: "Standard Operating Environment"
+    filter_type: rpm
     inclusion: true
+
+- name: Ensure package exclude filter 1 exists
+  redhat.satellite.content_view_filter:
+    username: "admin"
+    password: "changeme"
+    server_url: "https://satellite.example.com"
+    organization: "Default Organization"
+    name: "package filter 1"
+    content_view: "Standard Operating Environment"
+    filter_type: rpm
+
+- name: Ensure modulemd filter for 389 exists
+  redhat.satellite.content_view_filter:
+    username: "admin"
+    password: "changeme"
+    server_url: "https://satellite.example.com"
+    organization: "Default Organization"
+    name: "modulemd filter"
+    content_view: "Standard Operating Environment"
+    filter_type: modulemd
 '''
 
 RETURN = '''

@@ -19,13 +19,12 @@ jobs:
       fail-fast: false
       matrix:
         python:
-          - "3.10"
+          - "3.11"
         ansible:
-          - stable-2.12
-          - stable-2.13
           - stable-2.14
           - stable-2.15
           - stable-2.16
+          - stable-2.17
           - devel
         include:
           - python: "3.8"
@@ -37,14 +36,17 @@ jobs:
             container: "python:2.7"
           - python: "3.5"
             ansible: "stable-2.11"
+            container: "python:3.5"
           - python: "3.6"
             ansible: "stable-2.11"
           - python: "3.7"
             ansible: "stable-2.11"
           - python: "3.9"
             ansible: "stable-2.11"
-          - python: "3.11"
-            ansible: "devel"
+          - python: "3.10"
+            ansible: "stable-2.12"
+          - python: "3.10"
+            ansible: "stable-2.13"
           - python: "3.12"
             ansible: "devel"
     steps:
@@ -88,7 +90,7 @@ jobs:
         run: make dist-test
       - name: Run sanity tests
         run: make SANITY_OPTS="--docker" sanity
-        if: matrix.ansible != 'v2.9.17' && matrix.ansible != 'stable-2.10' && matrix.ansible != 'stable-2.11' && matrix.ansible != 'stable-2.12' && matrix.ansible != 'stable-2.13'
+        if: matrix.ansible != 'v2.9.17' && matrix.ansible != 'stable-2.10' && matrix.ansible != 'stable-2.11' && matrix.ansible != 'stable-2.12' && matrix.ansible != 'stable-2.13' && matrix.ansible != 'stable-2.14'
 
   checkmode:
     runs-on: ubuntu-latest

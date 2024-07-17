@@ -6,6 +6,22 @@ redhat.satellite Release Notes
 
 This changelog describes changes after version 0.8.1.
 
+v4.1.0
+======
+
+Minor Changes
+-------------
+
+- redhat_manifest - report ``changed`` when manifest is regenerated and downloaded (https://github.com/theforeman/foreman-ansible-modules/issues/1473)
+
+New Modules
+-----------
+
+- redhat.satellite.content_import_info - List content imports
+- redhat.satellite.content_import_library - Manage library content imports
+- redhat.satellite.content_import_repository - Manage repository content imports
+- redhat.satellite.content_import_version - Manage content view version content imports
+
 v4.0.0
 ======
 
@@ -541,7 +557,6 @@ Release Summary
 
 Documentation fixes to reflect the correct module names.
 
-
 v1.0.0
 ======
 
@@ -549,7 +564,6 @@ Release Summary
 ---------------
 
 This is the first stable release of the ``redhat.satellite`` collection.
-
 
 Breaking Changes / Porting Guide
 --------------------------------

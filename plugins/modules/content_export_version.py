@@ -90,26 +90,26 @@ EXAMPLES = '''
 
 - name: "Export content view version (incremental) since the most recent export"
   redhat.satellite.content_export_version:
-      content_view: RHEL8
-      content_view_version: '1.0'
-      username: "admin"
-      password: "changeme"
-      server_url: "https://satellite.example.com"
-      organization: "Default Organization"
-      destination_server: "airgapped.example.com"
-      incremental: true
+    content_view: RHEL8
+    content_view_version: '1.0'
+    username: "admin"
+    password: "changeme"
+    server_url: "https://satellite.example.com"
+    organization: "Default Organization"
+    destination_server: "airgapped.example.com"
+    incremental: true
 
 - name: "Export content view version (incremental) since a specific export"
   redhat.satellite.content_export_version:
-      content_view: RHEL8
-      content_view_version: '1.0'
-      username: "admin"
-      password: "changeme"
-      server_url: "https://satellite.example.com"
-      organization: "Default Organization"
-      destination_server: "airgapped.example.com"
-      incremental: true
-      from_history_id: 12345
+    content_view: RHEL8
+    content_view_version: '1.0'
+    username: "admin"
+    password: "changeme"
+    server_url: "https://satellite.example.com"
+    organization: "Default Organization"
+    destination_server: "airgapped.example.com"
+    incremental: true
+    from_history_id: 12345
 '''
 
 from ansible_collections.redhat.satellite.plugins.module_utils.foreman_helper import KatelloContentExportBaseModule
